@@ -18,9 +18,32 @@ namespace HadaManagerAPI.Controllers
         [HttpGet("GetTables", Name = "GetTables")]
         public IEnumerable<Table> GetTables()
         {
-            _context.Database.EnsureCreated();
-
-            return [new Table() { Id=new Guid(), Capacity=50, Name="Test Table", Occupancy=20}];
+            return _context.Tables.ToArray();
         }
+
+        [HttpPost("AddTable", Name = "AddTable")]
+        public bool AddTable(Table table)
+        {
+            _context.Tables.Add(table);
+
+            return _context.SaveChanges() == 1;
+        }
+        
+        [HttpPost("DeleteTable", Name = "DeleteTable")]
+        public bool DeleteTable(Table table = null, Guid? id = null)
+        {
+            if (table is not null)
+            {
+                _context.Tables.Remove(table);
+            }
+            else if (id is not null)
+            {
+                var tableFromDB = _context.Tables.Find(id);
+                if (tableFromDB != default) _context.Tables.Remove(tableFromDB);
+            }
+
+            return _context.SaveChanges() == 1;
+        }
+
     }
 }
