@@ -1,6 +1,7 @@
 using HadaManagerAPI.DB;
 using HadaManagerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HadaManagerAPI.Controllers
 {
@@ -16,21 +17,23 @@ namespace HadaManagerAPI.Controllers
         }
 
         [HttpGet("GetTables", Name = "GetTables")]
-        public IEnumerable<Table> GetTables()
+        public async Task<Table[]> GetTables()
         {
-            return _context.Tables.ToArray();
+            return await _context.Tables.ToArrayAsync();
         }
 
         [HttpPost("AddTable", Name = "AddTable")]
-        public bool AddTable(Table table)
+        public async Task<IActionResult> AddTable(Table table)
         {
-            _context.Tables.Add(table);
+            await _context.Tables.AddAsync(table);
 
-            return _context.SaveChanges() == 1;
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
         
         [HttpPost("DeleteTable", Name = "DeleteTable")]
-        public bool DeleteTable(Table table = null, Guid? id = null)
+        public async Task<IActionResult> DeleteTable(Table table = null, Guid? id = null)
         {
             if (table is not null)
             {
@@ -38,11 +41,15 @@ namespace HadaManagerAPI.Controllers
             }
             else if (id is not null)
             {
-                var tableFromDB = _context.Tables.Find(id);
+                var tableFromDB = await _context.Tables.FindAsync(id);
+
                 if (tableFromDB != default) _context.Tables.Remove(tableFromDB);
             }
 
-            return _context.SaveChanges() == 1;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+
         }
 
     }
