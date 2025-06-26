@@ -52,3 +52,20 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# VS and IDE caches
+*.suo
+*.user
+*.vsidx
+*.futdcache.v2
+
+# Database artifacts
+*.db
+*.db-shm
+*.db-wal
+
+# Binary files
+*.bin
+
+# Visual Studio folders
+.vs/
