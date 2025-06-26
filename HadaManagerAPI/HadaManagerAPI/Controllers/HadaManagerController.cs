@@ -27,11 +27,9 @@ namespace HadaManagerAPI.Controllers
         {
             await _context.Tables.AddAsync(table);
 
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return await SaveChanges();
         }
-        
+
         [HttpPost("DeleteTable", Name = "DeleteTable")]
         public async Task<IActionResult> DeleteTable(Table table = null, Guid? id = null)
         {
@@ -46,10 +44,14 @@ namespace HadaManagerAPI.Controllers
                 if (tableFromDB != default) _context.Tables.Remove(tableFromDB);
             }
 
-            await _context.SaveChangesAsync();
+            return await SaveChanges();
+        }
 
-            return Ok();
+        private async Task<IActionResult> SaveChanges()
+        {
+            var numOfChanges = await _context.SaveChangesAsync();
 
+            return Ok(numOfChanges);
         }
 
     }
