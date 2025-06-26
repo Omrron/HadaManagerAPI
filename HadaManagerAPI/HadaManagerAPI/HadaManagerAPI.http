@@ -1,0 +1,6 @@
+@HadaManagerAPI_HostAddress = http://localhost:5141
+
+GET {{HadaManagerAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
