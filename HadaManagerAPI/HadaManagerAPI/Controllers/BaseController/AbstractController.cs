@@ -32,10 +32,16 @@ namespace HadaManagerAPI.Controllers.BaseController
         {
             if (item is not null)
             {
+                if (ContextType.Find(item.Id) is null)
+                    return BadRequest("Item doesn't exist");
+
                 ContextType.Remove(item);
             }
             else if (id is not null)
             {
+                if (ContextType.Find(id) is null)
+                    return BadRequest("Item doesn't exist");
+
                 var itemFromDB = await ContextType.FindAsync(id);
 
                 if (itemFromDB != default) ContextType.Remove(itemFromDB);
