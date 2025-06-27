@@ -65,6 +65,9 @@ nunit-*.xml
 *.db-shm
 *.db-wal
 
+# Database migrations
+**/Migrations/*
+
 # Binary files
 *.bin
 
