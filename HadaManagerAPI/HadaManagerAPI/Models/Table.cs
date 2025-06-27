@@ -1,6 +1,8 @@
-﻿namespace HadaManagerAPI.Models
+﻿using HadaManagerAPI.Models.Interfaces;
+
+namespace HadaManagerAPI.Models
 {
-    public sealed class Table
+    public sealed class Table : IIndexable
     {
         public required  Guid Id { get; init; }
         public required string Name {  get; set; }
